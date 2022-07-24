@@ -5,8 +5,11 @@ Esto es una página web en la cual podrías calcular cuáles son tus Ingresos y 
 Cosas que puedes hacer: 😏
 
 1 - Agregar Ingresos y Egresos. 
+
 2 - Eliminar Ingresos y Egreso. 
+
 3 - Calcular el porcentaje de los Egresos.
+
 4 - Llevar un conteo de todos tus Ingresos y Egresos mensuales.
 
 ¿Como usar? 🤔
