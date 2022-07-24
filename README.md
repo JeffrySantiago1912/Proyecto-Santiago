@@ -4,7 +4,7 @@ Esto es una página web en la cual podrías calcular cuáles son tus Ingresos y 
 
 
 
-😏 Cosas que puedes hacer: 😏
+😏 Cosas que puedes hacer: 
 
 1 - Agregar Ingresos y Egresos. 
 
