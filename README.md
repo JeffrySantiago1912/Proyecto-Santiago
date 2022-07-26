@@ -1,4 +1,4 @@
-                                                   😄  ¡Proyecto Santiago!  😄
+                                                 😄  ¡Proyecto Santiago!  😄
 
                             Esto es una página web en la cual podrías calcular cuáles son tus Ingresos
 
