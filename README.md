@@ -1,6 +1,6 @@
-😄  ¡Proyecto Santiago!  😄
+                                                   😄  ¡Proyecto Santiago!  😄
 
-Esto es una página web en la cual podrías calcular cuáles son tus Ingresos y Egresos al mes de forma muy intuitiva. 
+                   Esto es una página web en la cual podrías calcular cuáles son tus Ingresos y Egresos al mes de forma muy intuitiva. 
 
 
 ![Ingresos y Egresos](https://user-images.githubusercontent.com/66681577/181090024-13268ee0-b1f0-4253-90da-eaa743cb0cc1.PNG)
