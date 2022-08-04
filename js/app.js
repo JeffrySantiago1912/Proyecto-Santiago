@@ -1,59 +1,30 @@
-//Arreglo de Ingresos//
-const ingresos = [
-  new Ingreso("Sueldo", 35000.00)
-];
-
-
-//Arreglo de Egresos//
-const egresos = [
-  new Egreso("Renta del Departamento", 4500)
-
-];
-
-
 //Cargar en el body//
 let cargarApp = () => {
   cargarCabecero();
   cargarIngresos();
   cargarEgresos();
+  limpiarEntradas();
 };
 
+let limpiarEntradas = () => {
+    document.getElementById("descripcion").value = '';
+    document.getElementById("valor").value = '';
 
-
-//Calcular total de Ingresos y mostrarlos en el cabecero//
-let totalIngresos = () => {
-  let totalIngreso = 0;
-   for (let ingreso of ingresos) {
-     totalIngreso += ingreso.valor;
-   }
-      return totalIngreso;
-};
-
-
-//Calcular total de Egresos y mostrarlos en el cabecero//
-let totalEgresos = () => {
-  let totalEgreso = 0;
-   for (let egreso of egresos) {
-    totalEgreso += egreso.valor;
-  }
-     return totalEgreso;
-};
-
-
+}
 
 let cargarCabecero = () => {
   //Para ir sustituyendo los id que van a ir cargando en el index.html//
   //Los id ["presupuesto, ingresos, egresos, porcentaje"] los vamos a ir sustituyendo//
 
   //Tendra el presupuesto total//
-  let presupuesto = totalIngresos() - totalEgresos();
+  let presupuesto = DatoService.totalIngresado() - DatoService.totalEgresado();
 
-  let porcentajeEgreso = totalEgresos() / totalIngresos();
+  let porcentajeEgreso = DatoService.totalEgresado() / DatoService.totalIngresado();
 
   document.getElementById("presupuesto").innerHTML = formatoMoneda(presupuesto);
   document.getElementById("porcentaje").innerHTML = formatoPorcentaje(porcentajeEgreso);
-  document.getElementById("ingresos").innerHTML = formatoMoneda(totalIngresos());
-  document.getElementById("egresos").innerHTML = formatoMoneda(totalEgresos());
+  document.getElementById("ingresos").innerHTML = formatoMoneda(DatoService.totalIngresado());
+  document.getElementById("egresos").innerHTML = formatoMoneda(DatoService.totalEgresado());
 
 };
 
@@ -75,7 +46,7 @@ const formatoPorcentaje = (valor) => {
 const cargarIngresos = () => {
 
     let ingresosHTML = "";
-    for(let ingreso of ingresos){
+    for(let ingreso of DatoService.ingresos){
         ingresosHTML += crearIngresoHTML(ingreso);
     }
      document.getElementById("lista-ingresos").innerHTML = ingresosHTML;
@@ -104,22 +75,15 @@ const crearIngresoHTML = (ingreso) =>{
 
 //Eliminar ingreso//
 const eliminarIngreso = (id) =>{
-    let indiceEliminar = ingresos.findIndex(ingreso => ingreso.id === id); 
-    ingresos.splice(indiceEliminar, 1);
-    cargarCabecero();
-    cargarIngresos();
+    DatoService.eliminarIngresoPorId(id);
+    cargarApp();
 }
-
-
-
-
-
 
 //Nos permite mostrar los egresos//
 const cargarEgresos = () =>{
 
     let egresosHTML = "";
-    for(let egreso of egresos){
+    for(let egreso of DatoService.egresos){
         egresosHTML += crearEgresosHMTL(egreso);
     }
 
@@ -134,7 +98,7 @@ const crearEgresosHMTL =  (egreso) =>{
                     <div class="elemento_descripcion">${egreso.descripcion}</div>
                     <div class="derecha limpiarEstilos">
                       <div class="elemento_valor">${formatoMoneda(egreso.valor)}</div>
-                        <div class="elemento_porcentaje">${formatoPorcentaje(egreso.valor / totalEgresos())}</div>
+                        <div class="elemento_porcentaje">${formatoPorcentaje(egreso.valor / DatoService.totalEgresado())}</div>
                           <div class="elemento_eliminar">
                            <button class = "elemento_eliminar--btn">
                            <ion-icon name="close-circle-outline"
@@ -149,11 +113,11 @@ const crearEgresosHMTL =  (egreso) =>{
 
 //Eliminar Egreso//
 const eliminarEgresos = (id) =>{
-    let indiceEliminar = egresos.findIndex(egreso => egreso.id === id); 
-    egresos.splice(indiceEliminar, 1);
-    cargarCabecero();
-    cargarEgresos();
+    DatoService.eliminarEgresoPorId(id);
+    cargarApp();
 }
+
+let views = {"ingreso": cargarIngresos, "egreso": cargarEgresos};
 
 const agregarDato = () =>{
  
@@ -161,20 +125,13 @@ const agregarDato = () =>{
     let tipo = forma["tipo"];
     let descripcion = forma["descripcion"];
     let valor = forma["valor"];
+    const laDescripcionNoEstaVacia = descripcion.value !== "" && valor.value !== "";
 
-    if(descripcion.value !== "" && valor.value !=="") {
-        if(tipo.value === "ingreso"){
+    if(laDescripcionNoEstaVacia) {
 
-            ingresos.push(new Ingreso(descripcion.value, Number(valor.value)));
-            cargarCabecero();
-            cargarIngresos();
+        var dato = new DatoFactory(tipo.value).contruir(descripcion.value, Number(valor.value));
 
-        } else if (tipo.value === "egreso"){
-
-            egresos.push(new Egreso(descripcion.value, Number(valor.value)));
-            cargarCabecero();
-            cargarEgresos();
-        }
-
+        DatoService.guardar(dato);
+        cargarApp();
     }
 }
