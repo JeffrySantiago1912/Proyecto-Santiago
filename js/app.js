@@ -41,18 +41,6 @@ const formatoPorcentaje = (valor) => {
 
 
 
-
-//Nos permite mostrar los ingresos//
-const cargarIngresos = () => {
-
-    let ingresosHTML = "";
-    for(let ingreso of DatoService.ingresos){
-        ingresosHTML += crearIngresoHTML(ingreso);
-    }
-     document.getElementById("lista-ingresos").innerHTML = ingresosHTML;
-}
-
-
 //Crear ingreso// - Para cada objeto de tipo ingreso se generara este codigo que genera esta funcion - El codigo viene desde html
 const crearIngresoHTML = (ingreso) =>{
     let ingresoHTML = `
@@ -63,7 +51,7 @@ const crearIngresoHTML = (ingreso) =>{
                         <div class="elemento_eliminar">
                             <button class = "elemento_eliminar--btn">
                                 <ion-icon name="close-circle-outline"
-                                onclick = "eliminarIngreso(${ingreso.id})" ></ion-icon> 
+                                onclick = "eliminarIngreso('${ingreso.id}')" ></ion-icon> 
                             </button>
                          </div>
                     </div>
@@ -79,16 +67,51 @@ const eliminarIngreso = (id) =>{
     cargarApp();
 }
 
+//Eliminar Egreso//
+const eliminarEgresos = (id) =>{
+    DatoService.eliminarEgresoPorId(id);
+    cargarApp();
+}
+
+
+
+//Nos permite mostrar los ingresos//
+const cargarIngresos = () => {
+
+    let ingresosHTML = "";
+
+    for(let ingreso of DatoService.ingresos){
+        ingresosHTML += crearIngresoHTML(ingreso);
+    }
+     document.getElementById("lista-ingresos").innerHTML = ingresosHTML;
+
+   /* Using method "map"
+    DatoService.ingreso.map( (ingreso) => ingresosHTML += crearIngresoHTML(ingreso));
+    document.getElementById("lista-ingresos").innerHTML = ingresosHTML; */ 
+}
+
+
+
+
 //Nos permite mostrar los egresos//
 const cargarEgresos = () =>{
 
     let egresosHTML = "";
+
     for(let egreso of DatoService.egresos){
         egresosHTML += crearEgresosHMTL(egreso);
     }
 
     document.getElementById("lista-egresos").innerHTML = egresosHTML;
+
+    /* Using method "reduce"
+    document.getElementById("lista-egresos").innerHTML = DatoService.egreso
+    .reduce((egresoHTML, egreso) => egresoHTML + crearEgresosHMTL(egreso), ""); */
 }
+
+   
+
+
 
 
 //Crear egreso// - Para cada objeto de tipo egreso se generara este codigo que genera esta funcion - El codigo viene desde html
@@ -102,7 +125,7 @@ const crearEgresosHMTL =  (egreso) =>{
                           <div class="elemento_eliminar">
                            <button class = "elemento_eliminar--btn">
                            <ion-icon name="close-circle-outline"
-                          onclick = "eliminarEgresos(${egreso.id})" ></ion-icon> 
+                          onclick = "eliminarEgresos('${egreso.id}')" ></ion-icon> 
                          </button>
                         </div>
                     </div>
@@ -111,11 +134,6 @@ const crearEgresosHMTL =  (egreso) =>{
     return egresoHTML;
 }
 
-//Eliminar Egreso//
-const eliminarEgresos = (id) =>{
-    DatoService.eliminarEgresoPorId(id);
-    cargarApp();
-}
 
 let views = {"ingreso": cargarIngresos, "egreso": cargarEgresos};
 
@@ -128,9 +146,9 @@ const agregarDato = () =>{
     const laDescripcionNoEstaVacia = descripcion.value !== "" && valor.value !== "";
 
     if(laDescripcionNoEstaVacia) {
-
-        var dato = new DatoFactory(tipo.value).contruir(descripcion.value, Number(valor.value));
-
+        //Crea y aloja los datos ya sea un Ingreso o Egreso
+        let dato = new DatoFactory(tipo.value).contruir(descripcion.value, Number(valor.value)); 
+        dato.id =  Math.floor((1 + Math.random()) * 0x10000).toString(16) //Genera ID de 4 digitos aleatorio para asignarselo a los datos.
         DatoService.guardar(dato);
         cargarApp();
 
@@ -152,3 +170,4 @@ function Solo_Texto(e) {
     if (AllowRegex.test(character)) return true;     
     return false; 
 }
+
