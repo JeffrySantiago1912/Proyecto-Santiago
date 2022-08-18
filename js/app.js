@@ -80,14 +80,15 @@ const cargarIngresos = () => {
 
     let ingresosHTML = "";
 
-    for(let ingreso of DatoService.ingresos){
+   /* for(let ingreso of DatoService.ingresos){
         ingresosHTML += crearIngresoHTML(ingreso);
     }
-     document.getElementById("lista-ingresos").innerHTML = ingresosHTML;
+     document.getElementById("lista-ingresos").innerHTML = ingresosHTML;*/
 
-   /* Using method "map"
-    DatoService.ingreso.map( (ingreso) => ingresosHTML += crearIngresoHTML(ingreso));
-    document.getElementById("lista-ingresos").innerHTML = ingresosHTML; */ 
+
+   // Using method "map"
+    DatoService.ingresos.map( (ingreso) => ingresosHTML += crearIngresoHTML(ingreso));
+    document.getElementById("lista-ingresos").innerHTML = ingresosHTML;  
 }
 
 
@@ -96,17 +97,17 @@ const cargarIngresos = () => {
 //Nos permite mostrar los egresos//
 const cargarEgresos = () =>{
 
-    let egresosHTML = "";
+   /* let egresosHTML = "";
 
     for(let egreso of DatoService.egresos){
         egresosHTML += crearEgresosHMTL(egreso);
     }
 
     document.getElementById("lista-egresos").innerHTML = egresosHTML;
-
-    /* Using method "reduce"
-    document.getElementById("lista-egresos").innerHTML = DatoService.egreso
-    .reduce((egresoHTML, egreso) => egresoHTML + crearEgresosHMTL(egreso), ""); */
+*/
+     //Using method "reduce"
+    document.getElementById("lista-egresos").innerHTML = DatoService.egresos
+    .reduce((egresoHTML, egreso) => egresoHTML + crearEgresosHMTL(egreso), ""); 
 }
 
    
