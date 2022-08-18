@@ -25,8 +25,8 @@ class DatoService{
     }
 
     static eliminarIngresoPorId(id){
-        let indiceEliminar = DatoService.egresos.findIndex(egreso => egreso.id === id); 
-        DatoService.egresos.splice(indiceEliminar, 1);
+        let indiceEliminar = DatoService.ingresos.findIndex(ingreso => ingreso.id === id); 
+        DatoService.ingresos.splice(indiceEliminar, 1);
     }
 
     static eliminarEgresoPorId(id){
