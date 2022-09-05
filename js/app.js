@@ -155,7 +155,7 @@ const agregarDato = () =>{
 
     }  else {
 
-        descripcion.value == ""  || valor.value == "";
+        
         alert("Debes ingresar una descripcion y un valor.");
     }
 }
